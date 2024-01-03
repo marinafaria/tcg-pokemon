@@ -3,17 +3,23 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: '', 
-    loadChildren: async () => (await import('./pages/home/home.module')).HomeModule
+    path: '',
+    loadChildren: async () =>
+      (await import('./pages/home/home.module')).HomeModule,
   },
   {
-    path: '**', 
-    redirectTo: ''
-  }
+    path: 'new',
+    loadChildren: async () =>
+      (await import('./pages/create-deck/create-deck.module')).CreateDeckModule,
+  },
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
