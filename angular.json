@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "tcg-pokemon:build:production"
+              "buildTarget": "tcg-pokemon:build:production"
             },
             "development": {
-              "browserTarget": "tcg-pokemon:build:development"
+              "buildTarget": "tcg-pokemon:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "tcg-pokemon:build"
+            "buildTarget": "tcg-pokemon:build"
           }
         },
         "test": {
@@ -100,5 +100,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "ee4e0a3b-9bad-4c46-b015-45a36f7517d3"
   }
 }
