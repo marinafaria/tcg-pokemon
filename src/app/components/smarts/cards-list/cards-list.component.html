@@ -1,0 +1,21 @@
+<mat-paginator
+  *ngIf="hasPaginator"
+  [length]="listSize"
+  [pageSize]="5"
+  [pageSizeOptions]="[5, 10, 25]"
+  (page)="getPaginatorData($event)"
+/>
+
+<div class="grid grid-row-2">
+  <app-card
+    *ngFor="let card of list | slice : lowLimit : highLimit"
+    [card]="card"
+    [displayAddButton]="displayAddButton"
+    [displayRemoveButton]="displayRemoveButton"
+    (addEvent)="addCard(card)"
+  >
+  </app-card>
+  <span *ngIf="listSize === 0">
+    {{ emptyListMessage }}
+  </span>
+</div>

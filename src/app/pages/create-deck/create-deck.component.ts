@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Store } from '@ngxs/store';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { CardInfo } from 'src/app/models/card-info.model';
+import { Deck } from 'src/app/models/deck.model';
 import { CardsService } from 'src/app/services/cards.service';
+import { DecksState } from 'src/app/states/state/decks.state';
 
 @Component({
   selector: 'app-create-deck',
@@ -10,17 +13,19 @@ import { CardsService } from 'src/app/services/cards.service';
   styleUrl: './create-deck.component.scss',
 })
 export class CreateDeckComponent implements OnInit {
-  cardList: CardInfo[];
+  searchedCardList: CardInfo[] = [];
+  deckPlaceholder = [];
+  panelOpenState = false;
+  currentDeck$!: Observable<Deck | null>;
 
-  constructor(private cardsService: CardsService) {
-    this.cardList = [];
+  constructor(private cardsService: CardsService, private store: Store) {
+    this.currentDeck$ = this.store.select(DecksState.getCurrent);
   }
 
   ngOnInit(): void {
     this.cardsService.searchCards('togepi').subscribe();
     this.cardsService.searchedCards$.subscribe((list) => {
-      console.log(list);
-      this.cardList = list;
+      this.searchedCardList = list;
     });
   }
 }

@@ -1,2 +1,30 @@
-<p>create-deck works!</p>
-<div *ngFor="let card of cardList">{{ card.name }}</div>
+<mat-accordion class="sticky top-0">
+  <mat-expansion-panel
+    (opened)="panelOpenState = true"
+    (closed)="panelOpenState = false"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title> Meu novo deck </mat-panel-title>
+      <mat-panel-description>
+        Currently I am {{ panelOpenState ? "open" : "closed" }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-cards-list
+      [hasPaginator]="false"
+      [list]="(currentDeck$ | async)?.cards"
+      [deckId]="(currentDeck$ | async)?.id"
+      [emptyListMessage]="'Baralho vazio!'"
+      [displayAddButton]="false"
+    ></app-cards-list>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<app-cards-list
+  [hasPaginator]="true"
+  [list]="searchedCardList"
+  [emptyListMessage]="'Não foi encontrado nenhum pokémon com o termo buscado'"
+  [displayRemoveButton]="false"
+  [deckId]="(currentDeck$ | async)?.id"
+></app-cards-list>
+
+<!-- <div *ngFor="let card of cardList">{{ card.name }}</div> -->
