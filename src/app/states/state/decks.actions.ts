@@ -7,6 +7,11 @@ export namespace DecksAction {
     constructor(public deck: Deck | null) {}
   }
 
+  export class Remove {
+    static readonly type = '[Decks] Remove a card in a deck';
+    constructor(public deck: Deck) {}
+  }
+
   export class ChangeName {
     static readonly type = '[Decks] Change the name of the deck';
     constructor(public payload: string) {}

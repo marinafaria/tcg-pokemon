@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { Deck } from 'src/app/models/deck.model';
+import { DecksAction } from 'src/app/states/state/decks.actions';
 import { DecksState } from 'src/app/states/state/decks.state';
 
 @Component({
@@ -10,11 +12,15 @@ import { DecksState } from 'src/app/states/state/decks.state';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  decks: Deck[];
+  decks$: Observable<Deck[]>;
 
   constructor(private store: Store) {
-    this.decks = this.store.selectSnapshot(DecksState.getAll);
+    this.decks$ = this.store.select(DecksState.getAll);
   }
 
-  onClick() {}
+  edit() {}
+
+  remove(deck: Deck): void {
+    this.store.dispatch(new DecksAction.Remove(deck));
+  }
 }

@@ -20,10 +20,19 @@ const defaults = {
 @Injectable()
 export class DecksState {
   @Action(DecksAction.Add)
-  addCard(ctx: StateContext<DecksStateModel>, action: { deck: Deck }) {
+  add(ctx: StateContext<DecksStateModel>, action: { deck: Deck }) {
     const { deck } = action;
     const state = ctx.getState();
     ctx.setState({ decks: [...state.decks, deck] });
+    console.log(ctx.getState());
+  }
+
+  @Action(DecksAction.Remove)
+  remove(ctx: StateContext<DecksStateModel>, action: { deck: Deck }) {
+    const { deck } = action;
+    const state = ctx.getState();
+    let newDeck = state.decks.filter((eachDeck) => eachDeck.id != deck.id);
+    ctx.setState({ decks: newDeck });
     console.log(ctx.getState());
   }
 

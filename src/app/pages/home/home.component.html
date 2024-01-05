@@ -1,14 +1,18 @@
 <a [routerLink]="'new'">Criar novo</a>
 
-<div *ngFor="let deck of decks">
+<div *ngFor="let deck of decks$ | async">
   <mat-accordion class="m-2">
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title> {{ deck.name }} </mat-panel-title>
         <mat-panel-description>
           número de cartas: {{ deck.cards.length }} |
-          <button mat-stroked-button class="mx-4" (click)="onClick()">
+          <button mat-stroked-button class="mx-4" (click)="edit()">
             Editar
+          </button>
+          |
+          <button mat-stroked-button class="mx-4" (click)="remove(deck)">
+            Excluir
           </button>
         </mat-panel-description>
       </mat-expansion-panel-header>
