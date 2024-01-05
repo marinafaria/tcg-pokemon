@@ -61,18 +61,10 @@ export class CardsListComponent implements OnInit {
   }
 
   addCard(card: CardInfo) {
-    if (this.isDeckEmpty())
-      this.store.dispatch(
-        new DeckAction.Create(this.store.selectSnapshot(DecksState.getDeckSize))
-      );
     this.store.dispatch(new DeckAction.AddCard(card));
   }
 
   removeCard(card: CardInfo) {
     this.store.dispatch(new DeckAction.RemoveCard(card));
-  }
-
-  private isDeckEmpty() {
-    return isEmpty(this.store.selectSnapshot(DeckState.getDeck));
   }
 }

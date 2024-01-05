@@ -1,4 +1,4 @@
-<a [routerLink]="'new'">Criar novo</a>
+<a [routerLink]="'new'" (click)="create()">Criar novo</a>
 
 <div *ngFor="let deck of decks$ | async">
   <mat-accordion class="m-2">

@@ -50,6 +50,11 @@ export class DecksState {
   }
 
   @Selector()
+  static getDecksLastIndex({ decks }: DecksStateModel): number {
+    return decks[decks.length - 1].id;
+  }
+
+  @Selector()
   static getAll({ decks }: DecksStateModel): Deck[] {
     return decks;
   }
