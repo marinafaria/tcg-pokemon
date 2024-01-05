@@ -1,8 +1,14 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { Observable, debounceTime, filter } from 'rxjs';
+import { Observable, debounceTime, filter, takeWhile } from 'rxjs';
 import { isEmpty } from 'src/app/helpers/utils';
 import { CardInfo } from 'src/app/models/card-info.model';
 import { Deck } from 'src/app/models/deck.model';
@@ -19,13 +25,14 @@ import { DecksAction } from 'src/app/states/state/decks.actions';
   templateUrl: './deck-maker.component.html',
   styleUrl: './deck-maker.component.scss',
 })
-export class DeckMakerComponent implements OnInit {
+export class DeckMakerComponent implements OnInit, OnDestroy {
   searchedCardList: CardInfo[] = [];
   deckPlaceholder = [];
   panelOpenState = false;
   currentDeck$!: Observable<Deck | null>;
   mode!: Mode;
   typesNum: number = 0;
+  shouldSubscribe: boolean;
 
   constructor(
     private cardsService: CardsService,
@@ -35,6 +42,7 @@ export class DeckMakerComponent implements OnInit {
     private loadingBoxService: LoadingBoxService
   ) {
     this.currentDeck$ = this.store.select(DeckState.getDeck);
+    this.shouldSubscribe = true;
   }
 
   ngOnInit(): void {
@@ -49,13 +57,15 @@ export class DeckMakerComponent implements OnInit {
   }
 
   getUniqueTypesNumber() {
-    this.currentDeck$.subscribe((deck) => {
-      if (!isEmpty(deck?.cards)) {
-        this.typesNum = this.cardsService.getUniqueTypesNum(deck as Deck);
-      } else {
-        this.typesNum = 0;
-      }
-    });
+    this.currentDeck$
+      .pipe(takeWhile(() => this.shouldSubscribe))
+      .subscribe((deck) => {
+        if (!isEmpty(deck?.cards)) {
+          this.typesNum = this.cardsService.getUniqueTypesNum(deck as Deck);
+        } else {
+          this.typesNum = 0;
+        }
+      });
   }
 
   onSubmit() {
@@ -84,10 +94,11 @@ export class DeckMakerComponent implements OnInit {
     this.searchedCardList = [];
     this.cardsService
       .searchCards(value)
-      .pipe
-      // debounceTime(2000),
-      // filter((value) => String(value).length >= 2)
-      ()
+      .pipe(
+        // debounceTime(2000),
+        // filter((value) => String(value).length >= 2)
+        takeWhile(() => this.shouldSubscribe)
+      )
       .subscribe((list) => {
         this.loadingBoxService.end();
         this.searchedCardList = list;
@@ -107,5 +118,9 @@ export class DeckMakerComponent implements OnInit {
     return currentDeck
       ? currentDeck.cards.length >= 24 && currentDeck.cards.length <= 60
       : false;
+  }
+
+  ngOnDestroy(): void {
+    this.shouldSubscribe = false;
   }
 }
