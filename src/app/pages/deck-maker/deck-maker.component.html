@@ -9,7 +9,7 @@
           <input
             class="w-32"
             matInput
-            [value]="(currentDeck$ | async).name"
+            [value]="(currentDeck$ | async)?.name"
             (keyup)="editDeckName($event)"
             (click)="$event.stopPropagation()"
             (keydown.Space)="$event.stopImmediatePropagation()"

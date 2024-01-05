@@ -25,7 +25,7 @@ export class DeckState {
     const state = ctx.getState();
     let editingDeck = unfreezeObject(state.deck);
     editingDeck.cards.push(card);
-    ctx.setState({ deck: editingDeck });
+    ctx.patchState({ deck: editingDeck });
   }
 
   @Action(DeckAction.RemoveCard)

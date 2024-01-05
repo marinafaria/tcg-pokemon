@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { STATE_CONFIG } from 'state.config';
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,6 +19,7 @@ import { STATE_CONFIG } from 'state.config';
     NgxsModule.forRoot([...STATE_CONFIG], {
       developmentMode: !environment.production,
     }),
+    NgxsStoragePluginModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],
