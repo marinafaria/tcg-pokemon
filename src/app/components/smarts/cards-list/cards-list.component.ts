@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import {
   MatPaginatorModule,
   MatPaginator,
@@ -22,7 +29,7 @@ import { LoadingBoxService } from 'src/app/services/loading-box.service';
   templateUrl: './cards-list.component.html',
   styleUrl: './cards-list.component.scss',
 })
-export class CardsListComponent implements OnInit {
+export class CardsListComponent implements OnChanges {
   lowLimit: number = 0;
   highLimit: number = 8;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -40,7 +47,7 @@ export class CardsListComponent implements OnInit {
     this.isLoading$ = this.loadingBoxService.isLoading$;
   }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     if (!this.hasPaginator) this.highLimit = this.listSize;
   }
 
