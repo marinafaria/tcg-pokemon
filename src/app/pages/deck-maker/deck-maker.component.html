@@ -6,7 +6,8 @@
     <mat-expansion-panel-header>
       <mat-panel-title> Meu novo deck </mat-panel-title>
       <mat-panel-description>
-        Currently I am {{ panelOpenState ? "open" : "closed" }}
+        Currently I am {{ panelOpenState ? "open" : "closed" }} | número de
+        cartas: {{ (currentDeck$ | async)?.cards?.length }}
       </mat-panel-description>
     </mat-expansion-panel-header>
     <app-cards-list
