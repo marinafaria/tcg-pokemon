@@ -6,6 +6,11 @@ export namespace DecksAction {
     constructor(public card: CardInfo, public id: number) {}
   }
 
+  export class RemoveCard {
+    static readonly type = '[Decks] Remove a card in a deck';
+    constructor(public card: CardInfo, public id: number) {}
+  }
+
   export class GetAll {
     static readonly type = '[Decks] Get all decks';
   }

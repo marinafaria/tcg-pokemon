@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import {
   MatPaginatorModule,
   MatPaginator,
@@ -9,7 +9,10 @@ import { CardInfo } from 'src/app/models/card-info.model';
 import { CardComponent } from '../../dumbs/card/card.component';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngxs/store';
-import { DecksAction } from 'src/app/states/state/decks.actions';
+import { DeckAction } from 'src/app/states/state/deck.actions';
+import { DecksState } from 'src/app/states/state/decks.state';
+import { DeckState } from 'src/app/states/state/deck.state';
+import { isEmpty } from 'src/app/helpers/utils';
 
 @Component({
   selector: 'app-cards-list',
@@ -18,18 +21,21 @@ import { DecksAction } from 'src/app/states/state/decks.actions';
   templateUrl: './cards-list.component.html',
   styleUrl: './cards-list.component.scss',
 })
-export class CardsListComponent {
+export class CardsListComponent implements OnInit {
   lowLimit: number = 0;
-  highLimit: number = 5;
+  highLimit: number = 4;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @Input() hasPaginator: boolean = false;
   @Input() list!: CardInfo[];
   @Input() emptyListMessage: string = 'Campo vazio!';
-  @Input() deckId!: number;
   @Input() displayAddButton: boolean = true;
   @Input() displayRemoveButton: boolean = true;
 
   constructor(private store: Store) {}
+
+  ngOnInit(): void {
+    if (!this.hasPaginator) this.highLimit = this.listSize;
+  }
 
   get listSize(): number {
     return this.list?.length;
@@ -47,7 +53,7 @@ export class CardsListComponent {
   private resetPagination() {
     this.paginator.firstPage();
     this.lowLimit = 0;
-    this.highLimit = 6;
+    this.highLimit = 4;
   }
 
   private getPreviousPage(event: PageEvent): number {
@@ -55,6 +61,18 @@ export class CardsListComponent {
   }
 
   addCard(card: CardInfo) {
-    this.store.dispatch(new DecksAction.AddCard(card, this.deckId));
+    if (this.isDeckEmpty())
+      this.store.dispatch(
+        new DeckAction.Create(this.store.selectSnapshot(DecksState.getDeckSize))
+      );
+    this.store.dispatch(new DeckAction.AddCard(card));
+  }
+
+  removeCard(card: CardInfo) {
+    this.store.dispatch(new DeckAction.RemoveCard(card));
+  }
+
+  private isDeckEmpty() {
+    return isEmpty(this.store.selectSnapshot(DeckState.getDeck));
   }
 }

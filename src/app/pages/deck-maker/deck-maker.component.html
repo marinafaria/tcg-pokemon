@@ -12,7 +12,6 @@
     <app-cards-list
       [hasPaginator]="false"
       [list]="(currentDeck$ | async)?.cards"
-      [deckId]="(currentDeck$ | async)?.id"
       [emptyListMessage]="'Baralho vazio!'"
       [displayAddButton]="false"
     ></app-cards-list>
@@ -24,7 +23,4 @@
   [list]="searchedCardList"
   [emptyListMessage]="'Não foi encontrado nenhum pokémon com o termo buscado'"
   [displayRemoveButton]="false"
-  [deckId]="(currentDeck$ | async)?.id"
 ></app-cards-list>
-
-<!-- <div *ngFor="let card of cardList">{{ card.name }}</div> -->

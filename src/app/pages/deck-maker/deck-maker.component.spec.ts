@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateDeckComponent } from './create-deck.component';
+import { DeckMakerComponent } from './deck-maker.component';
 
 describe('CreateDeckComponent', () => {
-  let component: CreateDeckComponent;
-  let fixture: ComponentFixture<CreateDeckComponent>;
+  let component: DeckMakerComponent;
+  let fixture: ComponentFixture<DeckMakerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CreateDeckComponent]
-    })
-    .compileComponents();
-    
-    fixture = TestBed.createComponent(CreateDeckComponent);
+      imports: [DeckMakerComponent],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(DeckMakerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

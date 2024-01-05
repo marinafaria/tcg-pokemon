@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: 'new',
     loadChildren: async () =>
-      (await import('./pages/create-deck/create-deck.module')).CreateDeckModule,
+      (await import('./pages/deck-maker/deck-maker.module')).DeckMakerModule,
   },
   {
     path: '**',
