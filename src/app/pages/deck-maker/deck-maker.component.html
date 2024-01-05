@@ -33,7 +33,11 @@
 </mat-accordion>
 
 <section class="flex flex-row align-middle mx-2 justify-between">
-  <app-go-to-home></app-go-to-home>
+  <app-redirect-button
+    iconName="home"
+    url="/"
+    description="Voltar para a página principal"
+  ></app-redirect-button>
   <form [formGroup]="form">
     <mat-form-field class="flex flex-row m-4 w-216">
       <mat-icon class="text-black-600 inline align-middle"> search </mat-icon>

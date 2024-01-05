@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { LoadingBoxModule } from 'src/app/components/dumbs/loading-box/loading-box.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { GoToHomeComponent } from 'src/app/components/dumbs/go-to-home/go-to-home.component';
+import { RedirectButtonComponent } from 'src/app/components/dumbs/redirect-button/redirect-button.component';
 
 @NgModule({
   declarations: [DeckMakerComponent],
@@ -33,7 +33,7 @@ import { GoToHomeComponent } from 'src/app/components/dumbs/go-to-home/go-to-hom
     LoadingBoxModule,
     FormsModule,
     ReactiveFormsModule,
-    GoToHomeComponent,
+    RedirectButtonComponent,
   ],
 })
 export class DeckMakerModule {}
