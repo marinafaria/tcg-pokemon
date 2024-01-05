@@ -1,5 +1,3 @@
-<app-go-to-home></app-go-to-home>
-
 <mat-accordion class="sticky top-0 z-10">
   <mat-expansion-panel>
     <mat-expansion-panel-header>
@@ -16,9 +14,9 @@
         </mat-form-field>
       </mat-panel-title>
       <mat-panel-description>
-        quantidade de types únicos: {{ typesNum }} | quantidade de cartas de
-        pokemons: {{ counterSubtypes["Pokémon"] }} | quantidade de cartas de
-        treinador: {{ counterSubtypes["Trainer"] }} | número de cartas:
+        nº types únicos: {{ typesNum }} | nº cartas de pokemons:
+        {{ counterSubtypes["Pokémon"] }} | nº cartas de treinador:
+        {{ counterSubtypes["Trainer"] }} | nº cartas:
         {{ (currentDeck$ | async)?.cards?.length }} |
         <button mat-stroked-button class="mx-4" (click)="onSubmit()">
           Salvar
@@ -34,12 +32,19 @@
   </mat-expansion-panel>
 </mat-accordion>
 
-<form [formGroup]="form">
-  <mat-form-field class="flex flex-row m-4">
-    <mat-icon class="text-black-600 inline align-middle"> search </mat-icon>
-    <input matInput placeholder="Ex. togepi" formControlName="searchInput" />
-  </mat-form-field>
-</form>
+<section class="flex flex-row align-middle mx-2 justify-between">
+  <app-go-to-home></app-go-to-home>
+  <form [formGroup]="form">
+    <mat-form-field class="flex flex-row m-4 w-216">
+      <mat-icon class="text-black-600 inline align-middle"> search </mat-icon>
+      <input
+        matInput
+        placeholder="Procure um pokemon aqui"
+        formControlName="searchInput"
+      />
+    </mat-form-field>
+  </form>
+</section>
 
 <app-loading-box [loadingSize]="75" class="flex justify-center items-center">
   <app-cards-list

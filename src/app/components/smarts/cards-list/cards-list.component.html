@@ -5,7 +5,7 @@
   (page)="getPaginatorData($event)"
 />
 
-<div class="flex items-center justify-normal flex-wrap">
+<div class="flex items-center justify-around flex-wrap">
   <app-card
     *ngFor="let card of list | slice : lowLimit : highLimit"
     [card]="card"

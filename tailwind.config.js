@@ -8,6 +8,7 @@ module.exports = {
         84: "21rem",
         96: "24rem",
         108: "27rem",
+        216: "54rem",
       },
     },
   },
