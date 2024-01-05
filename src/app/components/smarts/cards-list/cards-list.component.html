@@ -1,0 +1,24 @@
+<mat-paginator
+  *ngIf="hasPaginator && (isLoading$ | async) === false && listSize !== 0"
+  [length]="listSize"
+  [pageSize]="8"
+  (page)="getPaginatorData($event)"
+/>
+
+<div class="flex items-center justify-around flex-wrap">
+  <app-card
+    *ngFor="let card of list | slice : lowLimit : highLimit"
+    [card]="card"
+    [displayAddButton]="displayAddButton"
+    [displayRemoveButton]="displayRemoveButton"
+    (addEvent)="addCard(card)"
+    (removeEvent)="removeCard(card)"
+  >
+  </app-card>
+  <div
+    *ngIf="listSize === 0 && (isLoading$ | async) === false"
+    class="flex justify-center items-center"
+  >
+    {{ emptyListMessage }}
+  </div>
+</div>

@@ -1,1 +1,37 @@
-<p>home works!</p>
+<section class="flex flex-row m-4 align-top justify-start">
+  <img src="/assets/pokeball.jpg" class="w-8 h-8 rotate-45 mr-1" />
+  <div class="text-3xl mr-8">Gerenciador de baralhos de Pokémon TCG</div>
+  <app-redirect-button
+    iconName="add_circle"
+    url="/deck-maker"
+    description="Criar novo baralho"
+    (emitter)="create()"
+  ></app-redirect-button>
+</section>
+
+<div *ngFor="let deck of decks$ | async">
+  <mat-accordion class="m-2">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> {{ deck.name }} </mat-panel-title>
+        <mat-panel-description>
+          número de cartas: {{ deck.cards.length }} |
+          <button mat-stroked-button class="mx-4" (click)="edit(deck)">
+            Editar
+          </button>
+          |
+          <button mat-stroked-button class="mx-4" (click)="remove(deck)">
+            Excluir
+          </button>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-cards-list
+        [hasPaginator]="false"
+        [list]="deck.cards"
+        [emptyListMessage]="'Baralho vazio!'"
+        [displayAddButton]="false"
+        [displayRemoveButton]="false"
+      ></app-cards-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
