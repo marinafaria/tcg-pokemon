@@ -38,9 +38,11 @@
   <input matInput placeholder="Ex. togepi" (keyup)="search($event)" />
 </mat-form-field>
 
-<app-cards-list
-  [hasPaginator]="true"
-  [list]="searchedCardList"
-  [emptyListMessage]="'Não foi encontrado nenhum pokémon com o termo buscado'"
-  [displayRemoveButton]="false"
-></app-cards-list>
+<app-loading-box [loadingSize]="50" class="place-content-center">
+  <app-cards-list
+    [hasPaginator]="true"
+    [list]="searchedCardList"
+    [emptyListMessage]="'Não foi encontrado nenhum pokémon com o termo buscado'"
+    [displayRemoveButton]="false"
+  ></app-cards-list>
+</app-loading-box>

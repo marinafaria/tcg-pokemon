@@ -1,0 +1,7 @@
+<div [ngClass]="{ 'app-loading-box': (isLoading$ | async) }">
+  <div class="app-loading-box__spinner" *ngIf="isLoading$ | async">
+    <mat-spinner [diameter]="loadingSize"></mat-spinner>
+  </div>
+
+  <ng-content></ng-content>
+</div>

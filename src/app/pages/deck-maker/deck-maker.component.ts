@@ -8,6 +8,7 @@ import { CardInfo } from 'src/app/models/card-info.model';
 import { Deck } from 'src/app/models/deck.model';
 import { Mode } from 'src/app/models/mode.enum';
 import { CardsService } from 'src/app/services/cards.service';
+import { LoadingBoxService } from 'src/app/services/loading-box.service';
 import { DeckAction } from 'src/app/states/state/deck.actions';
 import { DeckState } from 'src/app/states/state/deck.state';
 import { DecksAction } from 'src/app/states/state/decks.actions';
@@ -30,7 +31,8 @@ export class DeckMakerComponent implements OnInit {
     private cardsService: CardsService,
     private store: Store,
     private _snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private loadingBoxService: LoadingBoxService
   ) {
     this.currentDeck$ = this.store.select(DeckState.getDeck);
   }
@@ -78,13 +80,16 @@ export class DeckMakerComponent implements OnInit {
   // TODO: fazer com que debounce e filter sejam efetivos
   search($event: any) {
     let value = $event?.target?.value;
+    this.loadingBoxService.start();
+    this.searchedCardList = [];
     this.cardsService
       .searchCards(value)
-      .pipe(
-        debounceTime(2000),
-        filter((value) => String(value).length >= 2)
-      )
+      .pipe
+      // debounceTime(2000),
+      // filter((value) => String(value).length >= 2)
+      ()
       .subscribe((list) => {
+        this.loadingBoxService.end();
         this.searchedCardList = list;
       });
   }

@@ -16,7 +16,7 @@
     (removeEvent)="removeCard(card)"
   >
   </app-card>
-  <span *ngIf="listSize === 0">
+  <span *ngIf="listSize === 0 && (isLoading$ | async) === false">
     {{ emptyListMessage }}
   </span>
 </div>

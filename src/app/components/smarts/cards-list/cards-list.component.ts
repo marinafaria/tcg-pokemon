@@ -4,7 +4,7 @@ import {
   MatPaginator,
   PageEvent,
 } from '@angular/material/paginator';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { CardInfo } from 'src/app/models/card-info.model';
 import { CardComponent } from '../../dumbs/card/card.component';
 import { CommonModule } from '@angular/common';
@@ -13,6 +13,7 @@ import { DeckAction } from 'src/app/states/state/deck.actions';
 import { DecksState } from 'src/app/states/state/decks.state';
 import { DeckState } from 'src/app/states/state/deck.state';
 import { isEmpty } from 'src/app/helpers/utils';
+import { LoadingBoxService } from 'src/app/services/loading-box.service';
 
 @Component({
   selector: 'app-cards-list',
@@ -30,8 +31,14 @@ export class CardsListComponent implements OnInit {
   @Input() emptyListMessage: string = 'Campo vazio!';
   @Input() displayAddButton: boolean = true;
   @Input() displayRemoveButton: boolean = true;
+  isLoading$: Observable<boolean>;
 
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private loadingBoxService: LoadingBoxService
+  ) {
+    this.isLoading$ = this.loadingBoxService.isLoading$;
+  }
 
   ngOnInit(): void {
     if (!this.hasPaginator) this.highLimit = this.listSize;
