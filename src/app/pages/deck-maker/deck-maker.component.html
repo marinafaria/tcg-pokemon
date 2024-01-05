@@ -35,10 +35,12 @@
   </mat-expansion-panel>
 </mat-accordion>
 
-<mat-form-field class="flex flex-row m-4">
-  <mat-icon class="text-black-600 inline align-middle"> search </mat-icon>
-  <input matInput placeholder="Ex. togepi" (keyup)="search($event)" />
-</mat-form-field>
+<form [formGroup]="form">
+  <mat-form-field class="flex flex-row m-4">
+    <mat-icon class="text-black-600 inline align-middle"> search </mat-icon>
+    <input matInput placeholder="Ex. togepi" formControlName="searchInput" />
+  </mat-form-field>
+</form>
 
 <app-loading-box [loadingSize]="75" class="flex justify-center items-center">
   <app-cards-list

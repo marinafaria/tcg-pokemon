@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { LoadingBoxModule } from 'src/app/components/dumbs/loading-box/loading-box.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [DeckMakerComponent],
@@ -29,6 +30,8 @@ import { LoadingBoxModule } from 'src/app/components/dumbs/loading-box/loading-b
     MatIconModule,
     MatFormFieldModule,
     LoadingBoxModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
 })
 export class DeckMakerModule {}

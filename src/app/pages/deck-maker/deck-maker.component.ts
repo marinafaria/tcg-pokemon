@@ -5,10 +5,11 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { Observable, debounceTime, filter, takeWhile } from 'rxjs';
+import { Observable, debounceTime, filter, take, takeWhile } from 'rxjs';
 import { isEmpty } from 'src/app/helpers/utils';
 import { CardInfo } from 'src/app/models/card-info.model';
 import { Deck } from 'src/app/models/deck.model';
@@ -34,13 +35,15 @@ export class DeckMakerComponent implements OnInit, OnDestroy {
   typesNum: number = 0;
   shouldSubscribe: boolean;
   counterSubtypes: any;
+  form!: FormGroup;
 
   constructor(
     private cardsService: CardsService,
     private store: Store,
     private _snackBar: MatSnackBar,
     private router: Router,
-    private loadingBoxService: LoadingBoxService
+    private loadingBoxService: LoadingBoxService,
+    private fb: FormBuilder
   ) {
     this.currentDeck$ = this.store.select(DeckState.getDeck);
     this.shouldSubscribe = true;
@@ -55,6 +58,10 @@ export class DeckMakerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      searchInput: '',
+    });
+
     let initialDeck = this.store.selectSnapshot(DeckState.getDeck);
     if (isEmpty(initialDeck?.cards)) {
       this.mode = Mode.Create;
@@ -63,6 +70,7 @@ export class DeckMakerComponent implements OnInit, OnDestroy {
     }
 
     this.deckSubscription();
+    this.handleForm();
   }
 
   deckSubscription(): void {
@@ -113,21 +121,21 @@ export class DeckMakerComponent implements OnInit, OnDestroy {
     }
   }
 
-  // TODO: fazer com que debounce e filter sejam efetivos
-  search($event: any) {
-    let value = $event?.target?.value;
-    this.loadingBoxService.start();
-    this.searchedCardList = [];
-    this.cardsService
-      .searchCards(value)
+  handleForm(): void {
+    this.form.controls['searchInput'].valueChanges
       .pipe(
-        // debounceTime(2000),
-        // filter((value) => String(value).length >= 2)
-        takeWhile(() => this.shouldSubscribe)
+        takeWhile(() => this.shouldSubscribe),
+        debounceTime(1000)
       )
-      .subscribe((list) => {
-        this.loadingBoxService.end();
-        this.searchedCardList = list;
+      .subscribe((value: any) => {
+        this.loadingBoxService.start();
+        this.cardsService
+          .searchCards(value)
+          .pipe(take(1))
+          .subscribe((list) => {
+            this.loadingBoxService.end();
+            this.searchedCardList = list;
+          });
       });
   }
 
