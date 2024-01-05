@@ -38,7 +38,7 @@
   <input matInput placeholder="Ex. togepi" (keyup)="search($event)" />
 </mat-form-field>
 
-<app-loading-box [loadingSize]="50" class="place-content-center">
+<app-loading-box [loadingSize]="75" class="flex justify-center items-center">
   <app-cards-list
     [hasPaginator]="true"
     [list]="searchedCardList"
