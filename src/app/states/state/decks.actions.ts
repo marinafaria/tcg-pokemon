@@ -1,16 +1,11 @@
 import { CardInfo } from 'src/app/models/card-info.model';
+import { Deck } from 'src/app/models/deck.model';
 
 export namespace DecksAction {
-  export class AddCard {
+  export class Add {
     static readonly type = '[Decks] Add a card in a deck';
-    constructor(public card: CardInfo, public id: number) {}
+    constructor(public deck: Deck | null) {}
   }
-
-  export class RemoveCard {
-    static readonly type = '[Decks] Remove a card in a deck';
-    constructor(public card: CardInfo, public id: number) {}
-  }
-
   export class GetAll {
     static readonly type = '[Decks] Get all decks';
   }

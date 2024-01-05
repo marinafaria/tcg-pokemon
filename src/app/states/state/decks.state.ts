@@ -6,11 +6,11 @@ import { CardInfo } from 'src/app/models/card-info.model';
 import { unfreezeObject } from 'src/app/helpers/utils';
 
 export class DecksStateModel {
-  public deck!: Deck[];
+  public decks!: Deck[];
 }
 
 const defaults = {
-  deck: [],
+  decks: [],
 };
 
 @State<DecksStateModel>({
@@ -19,6 +19,16 @@ const defaults = {
 })
 @Injectable()
 export class DecksState {
+  @Action(DecksAction.Add)
+  addCard(ctx: StateContext<DecksStateModel>, action: { deck: Deck }) {
+    const { deck } = action;
+    const state = ctx.getState();
+    // let newDeckConfig = unfreezeObject(state.decks);
+    // newDeckConfig.cards.push(deck);
+    ctx.setState({ decks: [...state.decks, deck] });
+    console.log(ctx.getState());
+  }
+
   findDeckById(id: number, decks: Deck[]): Deck | null {
     let found = decks.find((deck) => deck.id === id);
     if (found) {
@@ -28,7 +38,7 @@ export class DecksState {
   }
 
   @Selector()
-  static getDeckSize({ deck }: DecksStateModel): number {
-    return deck.length;
+  static getDeckSize({ decks }: DecksStateModel): number {
+    return decks.length;
   }
 }

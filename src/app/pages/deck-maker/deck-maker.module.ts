@@ -4,6 +4,8 @@ import { DeckMakerComponent } from './deck-maker.component';
 import { RouterModule } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { CardsListComponent } from 'src/app/components/smarts/cards-list/cards-list.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [DeckMakerComponent],
@@ -17,6 +19,8 @@ import { CardsListComponent } from 'src/app/components/smarts/cards-list/cards-l
     ]),
     MatExpansionModule,
     CardsListComponent,
+    MatButtonModule,
+    MatSnackBarModule,
   ],
 })
 export class DeckMakerModule {}
