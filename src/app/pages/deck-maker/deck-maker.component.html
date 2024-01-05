@@ -4,7 +4,18 @@
     (closed)="panelOpenState = false"
   >
     <mat-expansion-panel-header>
-      <mat-panel-title> Meu novo deck </mat-panel-title>
+      <mat-panel-title class="m-8 align-middle">
+        <mat-form-field class="scale-75">
+          <input
+            class="w-32"
+            matInput
+            [value]="(currentDeck$ | async).name"
+            (keyup)="editDeckName($event)"
+            (click)="$event.stopPropagation()"
+            (keydown.Space)="$event.stopImmediatePropagation()"
+          />
+        </mat-form-field>
+      </mat-panel-title>
       <mat-panel-description>
         Currently I am {{ panelOpenState ? "open" : "closed" }} | número de
         cartas: {{ (currentDeck$ | async)?.cards?.length }} |
@@ -24,7 +35,7 @@
 
 <mat-form-field class="flex flex-row m-4">
   <mat-icon class="text-black-600 inline align-middle"> search </mat-icon>
-  <input matInput placeholder="Ex. togepi" (keyup)="onKeyup($event)" />
+  <input matInput placeholder="Ex. togepi" (keyup)="search($event)" />
 </mat-form-field>
 
 <app-cards-list

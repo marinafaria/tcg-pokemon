@@ -8,6 +8,7 @@ import { CardInfo } from 'src/app/models/card-info.model';
 import { Deck } from 'src/app/models/deck.model';
 import { Mode } from 'src/app/models/mode.enum';
 import { CardsService } from 'src/app/services/cards.service';
+import { DeckAction } from 'src/app/states/state/deck.actions';
 import { DeckState } from 'src/app/states/state/deck.state';
 import { DecksAction } from 'src/app/states/state/decks.actions';
 
@@ -34,7 +35,8 @@ export class DeckMakerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (isEmpty(this.store.selectSnapshot(DeckState.getDeck)?.cards)) {
+    let initialDeck = this.store.selectSnapshot(DeckState.getDeck);
+    if (isEmpty(initialDeck?.cards)) {
       this.mode = Mode.Create;
     } else {
       this.mode = Mode.Edit;
@@ -61,7 +63,7 @@ export class DeckMakerComponent implements OnInit {
   }
 
   // TODO: fazer com que debounce e filter sejam efetivos
-  onKeyup($event: any) {
+  search($event: any) {
     let value = $event?.target?.value;
     this.cardsService
       .searchCards(value)
@@ -72,6 +74,11 @@ export class DeckMakerComponent implements OnInit {
       .subscribe((list) => {
         this.searchedCardList = list;
       });
+  }
+
+  editDeckName($event: any) {
+    let value = $event?.target?.value;
+    this.store.dispatch(new DeckAction.SetName(value));
   }
 
   private openSnackBar(message: string, action: string) {

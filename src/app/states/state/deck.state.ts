@@ -66,6 +66,15 @@ export class DeckState {
     ctx.setState({ deck: deck });
   }
 
+  @Action(DeckAction.SetName)
+  setName(ctx: StateContext<DeckStateModel>, action: { name: string }) {
+    const { name } = action;
+    const state = ctx.getState();
+    let editingDeck = unfreezeObject(state.deck);
+    editingDeck.name = name;
+    ctx.setState({ deck: editingDeck });
+  }
+
   @Selector()
   static getDeck({ deck }: DeckStateModel) {
     return deck;

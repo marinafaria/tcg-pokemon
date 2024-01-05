@@ -21,4 +21,9 @@ export namespace DeckAction {
     static readonly type = '[Current deck] Set a deck';
     constructor(public deck: Deck) {}
   }
+
+  export class SetName {
+    static readonly type = '[Current deck] Set a name for the deck';
+    constructor(public name: string) {}
+  }
 }
