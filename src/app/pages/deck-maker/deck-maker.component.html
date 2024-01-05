@@ -1,0 +1,61 @@
+<mat-accordion class="sticky top-0 z-10">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title class="m-8 align-middle">
+        <mat-form-field class="scale-75">
+          <input
+            class="w-32"
+            matInput
+            [value]="(currentDeck$ | async)?.name"
+            (keyup)="editDeckName($event)"
+            (click)="$event.stopPropagation()"
+            (keydown.Space)="$event.stopImmediatePropagation()"
+          />
+        </mat-form-field>
+      </mat-panel-title>
+      <mat-panel-description>
+        nº types únicos: {{ typesNum }} | nº cartas de pokemons:
+        {{ counterSubtypes["Pokémon"] }} | nº cartas de treinador:
+        {{ counterSubtypes["Trainer"] }} | nº cartas:
+        {{ (currentDeck$ | async)?.cards?.length }} |
+        <button mat-stroked-button class="mx-4" (click)="onSubmit()">
+          Salvar
+        </button>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-cards-list
+      [hasPaginator]="false"
+      [list]="(currentDeck$ | async)?.cards"
+      [emptyListMessage]="'Baralho vazio!'"
+      [displayAddButton]="false"
+    ></app-cards-list>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<section class="flex flex-row align-middle mx-2 justify-between">
+  <app-redirect-button
+    class="m-4"
+    iconName="home"
+    url="/"
+    description="Voltar para a página principal"
+  ></app-redirect-button>
+  <form [formGroup]="form">
+    <mat-form-field class="flex flex-row m-4 w-216">
+      <mat-icon class="text-black-600 inline align-middle"> search </mat-icon>
+      <input
+        matInput
+        placeholder="Procure um pokemon aqui"
+        formControlName="searchInput"
+      />
+    </mat-form-field>
+  </form>
+</section>
+
+<app-loading-box [loadingSize]="75" class="flex justify-center items-center">
+  <app-cards-list
+    [hasPaginator]="true"
+    [list]="searchedCardList"
+    [emptyListMessage]="'Não foi encontrado nenhum pokémon com o termo buscado'"
+    [displayRemoveButton]="false"
+  ></app-cards-list>
+</app-loading-box>
