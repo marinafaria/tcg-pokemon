@@ -60,6 +60,12 @@ export class DeckState {
     return;
   }
 
+  @Action(DeckAction.Set)
+  set(ctx: StateContext<DeckStateModel>, action: { deck: Deck }) {
+    const { deck } = action;
+    ctx.setState({ deck: deck });
+  }
+
   @Selector()
   static getDeck({ deck }: DeckStateModel) {
     return deck;

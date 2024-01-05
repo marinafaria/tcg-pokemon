@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Deck } from 'src/app/models/deck.model';
@@ -15,11 +16,14 @@ import { DecksState } from 'src/app/states/state/decks.state';
 export class HomeComponent {
   decks$: Observable<Deck[]>;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private router: Router) {
     this.decks$ = this.store.select(DecksState.getAll);
   }
 
-  edit() {}
+  edit(deck: Deck) {
+    this.store.dispatch(new DeckAction.Set(deck));
+    this.router.navigateByUrl('/new');
+  }
 
   remove(deck: Deck): void {
     this.store.dispatch(new DecksAction.Remove(deck));

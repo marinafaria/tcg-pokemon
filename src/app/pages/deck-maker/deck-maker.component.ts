@@ -3,8 +3,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable, debounceTime, filter } from 'rxjs';
+import { isEmpty } from 'src/app/helpers/utils';
 import { CardInfo } from 'src/app/models/card-info.model';
 import { Deck } from 'src/app/models/deck.model';
+import { Mode } from 'src/app/models/mode.enum';
 import { CardsService } from 'src/app/services/cards.service';
 import { DeckState } from 'src/app/states/state/deck.state';
 import { DecksAction } from 'src/app/states/state/decks.actions';
@@ -20,6 +22,7 @@ export class DeckMakerComponent implements OnInit {
   deckPlaceholder = [];
   panelOpenState = false;
   currentDeck$!: Observable<Deck | null>;
+  mode!: Mode;
 
   constructor(
     private cardsService: CardsService,
@@ -31,18 +34,27 @@ export class DeckMakerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.cardsService.searchCards('togepi').subscribe();
-    // this.cardsService.searchedCards$.subscribe((list) => {
-    //   this.searchedCardList = list;
-    // });
+    if (isEmpty(this.store.selectSnapshot(DeckState.getDeck)?.cards)) {
+      this.mode = Mode.Create;
+    } else {
+      this.mode = Mode.Edit;
+    }
   }
 
   onSubmit() {
     let currentDeck = this.store.selectSnapshot(DeckState.getDeck);
+    let message = '';
     if (this.isValid(currentDeck)) {
-      this.store.dispatch(new DecksAction.Add(currentDeck));
+      if (this.mode === Mode.Create) {
+        this.store.dispatch(new DecksAction.Add(currentDeck));
+        message = 'Baralho criado com sucesso';
+      }
+      if (this.mode === Mode.Edit) {
+        this.store.dispatch(new DecksAction.Edit(currentDeck));
+        message = 'Baralho editado com sucesso';
+      }
       this.router.navigateByUrl('/');
-      this.openSnackBar('Baralho criado com sucesso', 'ok');
+      this.openSnackBar(message, 'ok');
     } else {
       this.openSnackBar('O baralho deve ter entre 24 e 60 cartas!', 'ok');
     }

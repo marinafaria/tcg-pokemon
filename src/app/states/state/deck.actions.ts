@@ -1,4 +1,5 @@
 import { CardInfo } from 'src/app/models/card-info.model';
+import { Deck } from 'src/app/models/deck.model';
 
 export namespace DeckAction {
   export class AddCard {
@@ -14,5 +15,10 @@ export namespace DeckAction {
   export class Create {
     static readonly type = '[Current deck] Create a new deck';
     constructor(public lastId: number, public name?: string) {}
+  }
+
+  export class Set {
+    static readonly type = '[Current deck] Set a deck';
+    constructor(public deck: Deck) {}
   }
 }

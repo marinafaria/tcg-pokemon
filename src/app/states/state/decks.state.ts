@@ -24,7 +24,6 @@ export class DecksState {
     const { deck } = action;
     const state = ctx.getState();
     ctx.setState({ decks: [...state.decks, deck] });
-    console.log(ctx.getState());
   }
 
   @Action(DecksAction.Remove)
@@ -33,7 +32,15 @@ export class DecksState {
     const state = ctx.getState();
     let newDeck = state.decks.filter((eachDeck) => eachDeck.id != deck.id);
     ctx.setState({ decks: newDeck });
-    console.log(ctx.getState());
+  }
+
+  @Action(DecksAction.Edit)
+  edit(ctx: StateContext<DecksStateModel>, action: { deck: Deck }) {
+    const { deck } = action;
+    const state = ctx.getState();
+    let oldDeck = this.findDeckById(deck.id, state.decks);
+    ctx.dispatch(new DecksAction.Remove(oldDeck as Deck));
+    ctx.dispatch(new DecksAction.Add(deck));
   }
 
   findDeckById(id: number, decks: Deck[]): Deck | null {
