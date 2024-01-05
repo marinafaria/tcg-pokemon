@@ -23,8 +23,6 @@ export class DecksState {
   addCard(ctx: StateContext<DecksStateModel>, action: { deck: Deck }) {
     const { deck } = action;
     const state = ctx.getState();
-    // let newDeckConfig = unfreezeObject(state.decks);
-    // newDeckConfig.cards.push(deck);
     ctx.setState({ decks: [...state.decks, deck] });
     console.log(ctx.getState());
   }
