@@ -21,6 +21,9 @@ import { DecksState } from 'src/app/states/state/decks.state';
 import { DeckState } from 'src/app/states/state/deck.state';
 import { isEmpty } from 'src/app/helpers/utils';
 import { LoadingBoxService } from 'src/app/services/loading-box.service';
+import { CardsService } from 'src/app/services/cards.service';
+import { Deck } from 'src/app/models/deck.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-cards-list',
@@ -42,7 +45,9 @@ export class CardsListComponent implements OnChanges {
 
   constructor(
     private store: Store,
-    private loadingBoxService: LoadingBoxService
+    private loadingBoxService: LoadingBoxService,
+    private cardService: CardsService,
+    private _snackBar: MatSnackBar
   ) {
     this.isLoading$ = this.loadingBoxService.isLoading$;
   }
@@ -64,21 +69,32 @@ export class CardsListComponent implements OnChanges {
     return event;
   }
 
-  private resetPagination() {
-    this.paginator.firstPage();
-    this.lowLimit = 0;
-    this.highLimit = 8;
-  }
-
-  private getPreviousPage(event: PageEvent): number {
-    return event.previousPageIndex ? event.previousPageIndex : 0;
-  }
-
   addCard(card: CardInfo) {
-    this.store.dispatch(new DeckAction.AddCard(card));
+    if (this.isValid(card)) {
+      this.store.dispatch(new DeckAction.AddCard(card));
+    } else {
+      this.openSnackBar(
+        'Carta não adicionada: é permitido apenas 4 cartas com o mesmo nome!',
+        'ok'
+      );
+    }
   }
 
   removeCard(card: CardInfo) {
     this.store.dispatch(new DeckAction.RemoveCard(card));
+  }
+
+  private isValid(card: CardInfo): boolean {
+    return this.cardService.sameCardNameLesserThanFour(
+      card,
+      this.store.selectSnapshot(DeckState.getDeck) as Deck
+    );
+  }
+  private openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
+  }
+
+  private getPreviousPage(event: PageEvent): number {
+    return event.previousPageIndex ? event.previousPageIndex : 0;
   }
 }

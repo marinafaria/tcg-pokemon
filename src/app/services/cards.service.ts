@@ -36,4 +36,8 @@ export class CardsService {
     }
     return 0;
   }
+
+  sameCardNameLesserThanFour(card: CardInfo, deck: Deck) {
+    return deck.cards.filter((item) => item.name === card.name).length < 4;
+  }
 }
