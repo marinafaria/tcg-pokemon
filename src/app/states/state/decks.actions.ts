@@ -6,9 +6,6 @@ export namespace DecksAction {
     static readonly type = '[Decks] Add a card in a deck';
     constructor(public deck: Deck | null) {}
   }
-  export class GetAll {
-    static readonly type = '[Decks] Get all decks';
-  }
 
   export class ChangeName {
     static readonly type = '[Decks] Change the name of the deck';

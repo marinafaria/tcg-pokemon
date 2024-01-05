@@ -1,1 +1,24 @@
 <a [routerLink]="'new'">Criar novo</a>
+
+<div *ngFor="let deck of decks">
+  <mat-accordion class="m-2">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> {{ deck.name }} </mat-panel-title>
+        <mat-panel-description>
+          número de cartas: {{ deck.cards.length }} |
+          <button mat-stroked-button class="mx-4" (click)="onClick()">
+            Editar
+          </button>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-cards-list
+        [hasPaginator]="false"
+        [list]="deck.cards"
+        [emptyListMessage]="'Baralho vazio!'"
+        [displayAddButton]="false"
+        [displayRemoveButton]="false"
+      ></app-cards-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

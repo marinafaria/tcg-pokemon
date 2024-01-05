@@ -39,4 +39,9 @@ export class DecksState {
   static getDeckSize({ decks }: DecksStateModel): number {
     return decks.length;
   }
+
+  @Selector()
+  static getAll({ decks }: DecksStateModel): Deck[] {
+    return decks;
+  }
 }
