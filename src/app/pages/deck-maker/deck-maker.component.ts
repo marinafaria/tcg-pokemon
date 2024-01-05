@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CardInfo } from 'src/app/models/card-info.model';
@@ -23,7 +24,8 @@ export class DeckMakerComponent implements OnInit {
   constructor(
     private cardsService: CardsService,
     private store: Store,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private router: Router
   ) {
     this.currentDeck$ = this.store.select(DeckState.getDeck);
   }
@@ -39,6 +41,8 @@ export class DeckMakerComponent implements OnInit {
     let currentDeck = this.store.selectSnapshot(DeckState.getDeck);
     if (this.isValid(currentDeck)) {
       this.store.dispatch(new DecksAction.Add(currentDeck));
+      this.router.navigateByUrl('/');
+      this.openSnackBar('Baralho criado com sucesso', 'ok');
     } else {
       this.openSnackBar('O baralho deve ter entre 24 e 60 cartas!', 'ok');
     }
