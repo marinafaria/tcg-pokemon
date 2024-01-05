@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { LoadingBoxModule } from 'src/app/components/dumbs/loading-box/loading-box.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GoToHomeComponent } from 'src/app/components/dumbs/go-to-home/go-to-home.component';
 
 @NgModule({
   declarations: [DeckMakerComponent],
@@ -32,6 +33,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     LoadingBoxModule,
     FormsModule,
     ReactiveFormsModule,
+    GoToHomeComponent,
   ],
 })
 export class DeckMakerModule {}
