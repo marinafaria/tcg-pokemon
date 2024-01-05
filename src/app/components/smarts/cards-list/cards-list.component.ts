@@ -23,7 +23,7 @@ import { isEmpty } from 'src/app/helpers/utils';
 })
 export class CardsListComponent implements OnInit {
   lowLimit: number = 0;
-  highLimit: number = 4;
+  highLimit: number = 8;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @Input() hasPaginator: boolean = false;
   @Input() list!: CardInfo[];
@@ -53,7 +53,7 @@ export class CardsListComponent implements OnInit {
   private resetPagination() {
     this.paginator.firstPage();
     this.lowLimit = 0;
-    this.highLimit = 4;
+    this.highLimit = 8;
   }
 
   private getPreviousPage(event: PageEvent): number {

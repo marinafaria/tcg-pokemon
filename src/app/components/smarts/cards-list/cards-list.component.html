@@ -1,8 +1,9 @@
 <mat-paginator
   *ngIf="hasPaginator"
   [length]="listSize"
-  [pageSize]="4"
+  [pageSize]="8"
   (page)="getPaginatorData($event)"
+  [pageSizeOptions]="[4, 8]"
 />
 
 <div class="flex items-center justify-normal flex-wrap">
