@@ -22,7 +22,7 @@ export class HomeComponent {
 
   edit(deck: Deck) {
     this.store.dispatch(new DeckAction.Set(deck));
-    this.router.navigateByUrl('/new');
+    this.router.navigateByUrl('/deck-maker');
   }
 
   remove(deck: Deck): void {

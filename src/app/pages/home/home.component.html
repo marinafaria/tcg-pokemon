@@ -1,4 +1,13 @@
-<a [routerLink]="'new'" (click)="create()">Criar novo</a>
+<section class="flex flex-row m-4 align-top justify-start">
+  <img src="/assets/pokeball.jpg" class="w-8 h-8 rotate-45 mr-1" />
+  <div class="text-3xl mr-8">Gerenciador de baralhos de Pokémon TCG</div>
+  <app-redirect-button
+    iconName="add_circle"
+    url="/deck-maker"
+    description="Criar novo baralho"
+    (click)="create()"
+  ></app-redirect-button>
+</section>
 
 <div *ngFor="let deck of decks$ | async">
   <mat-accordion class="m-2">
