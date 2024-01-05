@@ -17,7 +17,9 @@
         </mat-form-field>
       </mat-panel-title>
       <mat-panel-description>
-        quantidade de types únicos: {{ typesNum }} | número de cartas:
+        quantidade de types únicos: {{ typesNum }} | quantidade de cartas de
+        pokemons: {{ counterSubtypes["Pokémon"] }} | quantidade de cartas de
+        treinador: {{ counterSubtypes["Trainer"] }} | número de cartas:
         {{ (currentDeck$ | async)?.cards?.length }} |
         <button mat-stroked-button class="mx-4" (click)="onSubmit()">
           Salvar

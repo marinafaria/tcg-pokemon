@@ -33,6 +33,7 @@ export class DeckMakerComponent implements OnInit, OnDestroy {
   mode!: Mode;
   typesNum: number = 0;
   shouldSubscribe: boolean;
+  counterSubtypes: any;
 
   constructor(
     private cardsService: CardsService,
@@ -43,6 +44,14 @@ export class DeckMakerComponent implements OnInit, OnDestroy {
   ) {
     this.currentDeck$ = this.store.select(DeckState.getDeck);
     this.shouldSubscribe = true;
+    this.counterSubtypes = this.defaultSubtypes;
+  }
+
+  get defaultSubtypes() {
+    return {
+      Pokémon: 0,
+      Trainer: 0,
+    };
   }
 
   ngOnInit(): void {
@@ -53,19 +62,36 @@ export class DeckMakerComponent implements OnInit, OnDestroy {
       this.mode = Mode.Edit;
     }
 
-    this.getUniqueTypesNumber();
+    this.deckSubscription();
   }
 
-  getUniqueTypesNumber() {
+  deckSubscription(): void {
     this.currentDeck$
       .pipe(takeWhile(() => this.shouldSubscribe))
       .subscribe((deck) => {
-        if (!isEmpty(deck?.cards)) {
-          this.typesNum = this.cardsService.getUniqueTypesNum(deck as Deck);
-        } else {
-          this.typesNum = 0;
-        }
+        this.getUniqueTypesNumber(deck as Deck);
+        this.getPokemonsNum(deck as Deck);
       });
+  }
+
+  private getUniqueTypesNumber(deck: Deck): void {
+    if (!isEmpty(deck?.cards)) {
+      this.typesNum = this.cardsService.getUniqueTypesNum(deck as Deck);
+    } else {
+      this.typesNum = 0;
+    }
+  }
+
+  private getPokemonsNum(deck: Deck) {
+    this.resetCardsNum();
+    deck.cards.forEach((card) => {
+      const type = card.supertype;
+      this.counterSubtypes[type] = (this.counterSubtypes[type] || 0) + 1;
+    });
+  }
+
+  private resetCardsNum(): void {
+    this.counterSubtypes = this.defaultSubtypes;
   }
 
   onSubmit() {
