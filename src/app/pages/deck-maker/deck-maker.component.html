@@ -17,8 +17,8 @@
         </mat-form-field>
       </mat-panel-title>
       <mat-panel-description>
-        Currently I am {{ panelOpenState ? "open" : "closed" }} | número de
-        cartas: {{ (currentDeck$ | async)?.cards?.length }} |
+        quantidade de types únicos: {{ typesNum }} | número de cartas:
+        {{ (currentDeck$ | async)?.cards?.length }} |
         <button mat-stroked-button class="mx-4" (click)="onSubmit()">
           Salvar
         </button>

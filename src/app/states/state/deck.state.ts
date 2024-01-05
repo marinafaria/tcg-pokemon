@@ -55,6 +55,7 @@ export class DeckState {
       name: name ? name : 'Meu novo baralho',
       cards: [],
       id: lastId + 1,
+      types: [],
     };
     ctx.setState({ deck: emptyDeck });
     return;

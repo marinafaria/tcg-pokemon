@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CardInfo } from '../models/card-info.model';
+import { Deck } from '../models/deck.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,5 +24,16 @@ export class CardsService {
 
   handleCardsResults(result: any): CardInfo[] {
     return result.data;
+  }
+
+  getUniqueTypesNum(deck: Deck) {
+    if (deck?.cards) {
+      let typesList: any = [];
+      deck?.cards.forEach((element: CardInfo) => {
+        typesList.push(element.types);
+      });
+      return [...new Set([].concat(...typesList))].length;
+    }
+    return 0;
   }
 }

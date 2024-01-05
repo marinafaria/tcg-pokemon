@@ -6,4 +6,5 @@ export interface CardInfo {
     small: string;
     large: string;
   };
+  types: string[];
 }

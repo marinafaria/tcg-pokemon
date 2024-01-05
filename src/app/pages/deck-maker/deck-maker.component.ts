@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
@@ -24,6 +24,7 @@ export class DeckMakerComponent implements OnInit {
   panelOpenState = false;
   currentDeck$!: Observable<Deck | null>;
   mode!: Mode;
+  typesNum: number = 0;
 
   constructor(
     private cardsService: CardsService,
@@ -41,6 +42,18 @@ export class DeckMakerComponent implements OnInit {
     } else {
       this.mode = Mode.Edit;
     }
+
+    this.getUniqueTypesNumber();
+  }
+
+  getUniqueTypesNumber() {
+    this.currentDeck$.subscribe((deck) => {
+      if (!isEmpty(deck?.cards)) {
+        this.typesNum = this.cardsService.getUniqueTypesNum(deck as Deck);
+      } else {
+        this.typesNum = 0;
+      }
+    });
   }
 
   onSubmit() {
