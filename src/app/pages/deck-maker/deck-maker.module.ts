@@ -6,6 +6,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { CardsListComponent } from 'src/app/components/smarts/cards-list/cards-list.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [DeckMakerComponent],
@@ -21,6 +24,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     CardsListComponent,
     MatButtonModule,
     MatSnackBarModule,
+    MatInputModule,
+    MatIconModule,
+    MatFormFieldModule,
   ],
 })
 export class DeckMakerModule {}

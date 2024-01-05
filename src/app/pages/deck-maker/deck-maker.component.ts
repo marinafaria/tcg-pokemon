@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable, debounceTime, filter } from 'rxjs';
 import { CardInfo } from 'src/app/models/card-info.model';
 import { Deck } from 'src/app/models/deck.model';
 import { CardsService } from 'src/app/services/cards.service';
@@ -31,10 +31,10 @@ export class DeckMakerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cardsService.searchCards('togepi').subscribe();
-    this.cardsService.searchedCards$.subscribe((list) => {
-      this.searchedCardList = list;
-    });
+    // this.cardsService.searchCards('togepi').subscribe();
+    // this.cardsService.searchedCards$.subscribe((list) => {
+    //   this.searchedCardList = list;
+    // });
   }
 
   onSubmit() {
@@ -46,6 +46,20 @@ export class DeckMakerComponent implements OnInit {
     } else {
       this.openSnackBar('O baralho deve ter entre 24 e 60 cartas!', 'ok');
     }
+  }
+
+  // TODO: fazer com que debounce e filter sejam efetivos
+  onKeyup($event: any) {
+    let value = $event?.target?.value;
+    this.cardsService
+      .searchCards(value)
+      .pipe(
+        debounceTime(2000),
+        filter((value) => String(value).length >= 2)
+      )
+      .subscribe((list) => {
+        this.searchedCardList = list;
+      });
   }
 
   private openSnackBar(message: string, action: string) {

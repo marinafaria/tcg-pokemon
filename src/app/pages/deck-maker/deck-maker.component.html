@@ -22,6 +22,11 @@
   </mat-expansion-panel>
 </mat-accordion>
 
+<mat-form-field class="flex flex-row m-4">
+  <mat-icon class="text-black-600 inline align-middle"> search </mat-icon>
+  <input matInput placeholder="Ex. togepi" (keyup)="onKeyup($event)" />
+</mat-form-field>
+
 <app-cards-list
   [hasPaginator]="true"
   [list]="searchedCardList"
